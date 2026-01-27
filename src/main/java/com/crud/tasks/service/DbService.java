@@ -19,7 +19,7 @@ public class DbService {
         return repository.findAll();
     }
 
-//    public Task getTaskById(Long id) {
-//        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//    }
+    public Task getTaskById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 }
