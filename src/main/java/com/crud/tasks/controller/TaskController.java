@@ -38,11 +38,10 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping
-    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto) {
-        Task task = taskMapper.mapToTask(taskDto);
-        Task savedTask = service.saveTask(task);
-        return ResponseEntity.ok(taskMapper.mapToTaskDto(savedTask));
+    @PutMapping("/{taskId}")
+    public ResponseEntity<TaskDto> updateTask(@PathVariable Long taskId, @RequestBody TaskDto taskDto) {
+        Task updatedTask = service.updateTask(taskId, taskDto);
+        return ResponseEntity.ok(taskMapper.mapToTaskDto(updatedTask));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
