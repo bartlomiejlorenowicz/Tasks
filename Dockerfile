@@ -1,19 +1,24 @@
-FROM openjdk:21-jdk AS build
-RUN microdnf install findutils
+# -------- BUILD STAGE --------
+FROM eclipse-temurin:21-jdk AS build
+
 WORKDIR /app
+
+COPY gradlew .
+COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
 COPY src src
 
-COPY gradlew .
-COPY gradle gradle
-
-RUN chmod +x ./gradlew
+RUN chmod +x gradlew
 RUN ./gradlew build -x test
 
-FROM openjdk:21-jdk
+# -------- RUN STAGE --------
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
 VOLUME /tmp
 
 COPY --from=build /app/build/libs/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
 EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
