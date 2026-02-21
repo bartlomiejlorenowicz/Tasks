@@ -24,8 +24,13 @@ public class EmailScheduler {
                 Mail.builder()
                         .mailTo(adminConfig.getAdminMail())
                         .subject(SUBJECT)
-                        .message("Currently in database you got: " + size + " tasks")
+                        .message(buildTaskCountMessage(size))
                         .build()
         );
+    }
+
+    private String buildTaskCountMessage(long count) {
+        String taskWord = (count == 1) ? "task" : "tasks";
+        return "Currently in database you got: " + count + " " + taskWord;
     }
 }
